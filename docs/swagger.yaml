@@ -1,0 +1,67 @@
+info:
+  contact: {}
+paths:
+  /douyin/user:
+    get:
+      parameters:
+      - description: 用户id
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":"", "user_id":"", "token":""}'
+          schema:
+            type: string
+      summary: 用户信息
+      tags:
+      - 基础接口
+  /douyin/user/login:
+    post:
+      parameters:
+      - description: 登录用户名
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: 登录密码
+        in: query
+        name: password
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":"", "user_id":"", "token":""}'
+          schema:
+            type: string
+      summary: 用户登录
+      tags:
+      - 基础接口
+  /douyin/user/register:
+    post:
+      parameters:
+      - description: 注册用户名，最长32个字符
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: 密码，最长32个字符
+        in: query
+        name: password
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":"", "user_id":"", "token":""}'
+          schema:
+            type: string
+      summary: 用户注册
+      tags:
+      - 基础接口
+swagger: "2.0"

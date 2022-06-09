@@ -1,8 +1,15 @@
 package store
 
+import "gorm.io/gorm"
+
 type Comment struct {
-	Id         int64  `json:"id,omitempty"`
-	User       User   `json:"user"`
-	Content    string `json:"content,omitempty"`
-	CreateDate string `json:"create_date,omitempty"`
+	gorm.Model
+	UserID  uint   `gorm:"column:user_id" json:"user_id"`
+	User    User   `gorm:"foreignKey:id;references:user_id" json:"user"`
+	VideoID uint   `gorm:"column:video_id" json:"video_id"`
+	Content string `gorm:"column:content" json:"content"`
+}
+
+func (c Comment) TableName() string {
+	return "comment"
 }

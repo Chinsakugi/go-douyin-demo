@@ -1,7 +1,7 @@
 package store
 
 import (
-	"github.com/RaymondCode/simple-demo/config"
+	"go-douyin-demo/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -49,5 +49,14 @@ func Init() *gorm.DB {
 	sqlDB.SetMaxOpenConns(mysqlCfg.MaxOpenConnections)
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
 	sqlDB.SetConnMaxIdleTime(time.Second * 10)
+
+	Migrate(db)
+
 	return db
+}
+
+func Migrate(db *gorm.DB) {
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Video{})
+	db.AutoMigrate(&Comment{})
 }

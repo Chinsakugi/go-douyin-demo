@@ -2,7 +2,8 @@ package test
 
 import (
 	"fmt"
-	"github.com/RaymondCode/simple-demo/config"
+	"go-douyin-demo/config"
+
 	"github.com/spf13/viper"
 	"log"
 	"testing"

@@ -2,8 +2,8 @@ package test
 
 import (
 	"fmt"
-	"github.com/RaymondCode/simple-demo/config"
-	"github.com/RaymondCode/simple-demo/store"
+	"go-douyin-demo/config"
+	"go-douyin-demo/store"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"testing"
@@ -21,5 +21,6 @@ func TestGorm(t *testing.T) {
 }
 
 func TestCreateTable(t *testing.T) {
-	store.Db.AutoMigrate(&store.User{})
+	table := store.Db.Migrator().HasTable("user")
+	fmt.Println(table)
 }
