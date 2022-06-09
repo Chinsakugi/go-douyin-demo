@@ -16,7 +16,108 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/douyin/user": {
+        "/douyin/feed": {
+            "get": {
+                "tags": [
+                    "基础接口"
+                ],
+                "summary": "视频流接口",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "可选参数，限制返回视频的最新投稿时间戳，精确到秒，不填表示当前时间",
+                        "name": "latest_time",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户登录状态下设置",
+                        "name": "token",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\", \"user_id\":\"\", \"token\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/publish/action/": {
+            "post": {
+                "tags": [
+                    "基础接口"
+                ],
+                "summary": "投稿接口",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "视频数据",
+                        "name": "data",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "视频标题",
+                        "name": "title",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\", \"user_id\":\"\", \"token\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/publish/list/": {
+            "get": {
+                "tags": [
+                    "基础接口"
+                ],
+                "summary": "发布列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\", \"user_id\":\"\", \"token\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/user/": {
             "get": {
                 "tags": [
                     "基础接口"
@@ -48,7 +149,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/douyin/user/login": {
+        "/douyin/user/login/": {
             "post": {
                 "tags": [
                     "基础接口"
@@ -80,7 +181,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/douyin/user/register": {
+        "/douyin/user/register/": {
             "post": {
                 "tags": [
                     "基础接口"

@@ -1,7 +1,73 @@
 info:
   contact: {}
 paths:
-  /douyin/user:
+  /douyin/feed:
+    get:
+      parameters:
+      - description: 可选参数，限制返回视频的最新投稿时间戳，精确到秒，不填表示当前时间
+        in: query
+        name: latest_time
+        type: integer
+      - description: 用户登录状态下设置
+        in: query
+        name: token
+        type: string
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":"", "user_id":"", "token":""}'
+          schema:
+            type: string
+      summary: 视频流接口
+      tags:
+      - 基础接口
+  /douyin/publish/action/:
+    post:
+      parameters:
+      - description: 视频数据
+        in: formData
+        name: data
+        required: true
+        type: file
+      - description: 用户鉴权token
+        in: formData
+        name: token
+        required: true
+        type: string
+      - description: 视频标题
+        in: formData
+        name: title
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":"", "user_id":"", "token":""}'
+          schema:
+            type: string
+      summary: 投稿接口
+      tags:
+      - 基础接口
+  /douyin/publish/list/:
+    get:
+      parameters:
+      - description: 用户id
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":"", "user_id":"", "token":""}'
+          schema:
+            type: string
+      summary: 发布列表
+      tags:
+      - 基础接口
+  /douyin/user/:
     get:
       parameters:
       - description: 用户id
@@ -22,7 +88,7 @@ paths:
       summary: 用户信息
       tags:
       - 基础接口
-  /douyin/user/login:
+  /douyin/user/login/:
     post:
       parameters:
       - description: 登录用户名
@@ -43,7 +109,7 @@ paths:
       summary: 用户登录
       tags:
       - 基础接口
-  /douyin/user/register:
+  /douyin/user/register/:
     post:
       parameters:
       - description: 注册用户名，最长32个字符

@@ -18,3 +18,7 @@ type Video struct {
 func (v Video) TableName() string {
 	return "video"
 }
+
+func PublishVideo() {
+
+}
