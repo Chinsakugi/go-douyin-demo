@@ -6,6 +6,7 @@ import (
 	"go-douyin-demo/middleware/util"
 	"go-douyin-demo/store"
 	"net/http"
+	"strconv"
 )
 
 type VideoListResponse struct {
@@ -56,7 +57,7 @@ func Publish(c *gin.Context) {
 	}
 
 	//提取封面并保存
-	err, coverPath := util.GetSnapshot(filePath, "D:/go/go-douyin-demo/public/video_cover/", 5)
+	err, coverPath := util.GetSnapshot(filePath, "D:/go/go-douyin-demo/public/video_cover/", 3)
 	if err != nil {
 		c.JSON(http.StatusOK, Response{StatusCode: -1, StatusMsg: "get video cover error: " + err.Error()})
 		return
@@ -89,9 +90,9 @@ func Publish(c *gin.Context) {
 // @Success      200  {string}  json "{"status_code":"200","status_msg":"", "user_id":"", "token":""}"
 // @Router       /douyin/publish/list/ [get]
 func PublishList(c *gin.Context) {
-	userId := c.Query("user_id")
+	userId, _ := strconv.Atoi(c.Query("user_id"))
 	token := c.Query("token")
-	if userId == "" || token == "" {
+	if userId == 0 || token == "" {
 		c.JSON(http.StatusOK, UserInfoResponse{
 			Response: Response{
 				StatusCode: -1,
@@ -101,4 +102,59 @@ func PublishList(c *gin.Context) {
 		return
 	}
 
+	//验证token
+	userClaims, err := jwtHelper.ParseToken(token)
+	if err != nil {
+		c.JSON(http.StatusOK, VideoListResponse{
+			Response:  Response{StatusCode: -1, StatusMsg: "parse token error :" + err.Error()},
+			VideoList: nil,
+		})
+		return
+	}
+	if userClaims == nil {
+		c.JSON(http.StatusOK, VideoListResponse{
+			Response:  Response{StatusCode: -1, StatusMsg: "token error"},
+			VideoList: nil,
+		})
+		return
+	}
+
+	//获取用户发布视频列表
+	err, videoList := store.GetVideoList(uint(userId))
+	if err != nil {
+		c.JSON(http.StatusOK, VideoListResponse{
+			Response:  Response{StatusCode: -1, StatusMsg: "token error"},
+			VideoList: nil,
+		})
+		return
+	}
+
+	var videoListRes []map[string]interface{}
+
+	for _, video := range videoList {
+		videoRes := make(map[string]interface{})
+		videoRes["id"] = video.ID
+		videoRes["play_url"] = video.PlayUrl
+		videoRes["cover_url"] = video.CoverUrl
+		videoRes["favorite_count"] = video.FavoriteCount
+		videoRes["comment_count"] = video.CommentCount
+		videoRes["is_favorite"] = video.IsFavorite
+		videoRes["title"] = video.Title
+
+		author := make(map[string]interface{})
+		author["id"] = video.Author.ID
+		author["name"] = video.Author.Username
+		author["follow_count"] = video.Author.FollowCount
+		author["follower_count"] = video.Author.FollowerCount
+		author["is_follow"] = video.Author.IsFollow
+
+		videoRes["author"] = author
+		videoListRes = append(videoListRes, videoRes)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status_code": 0,
+		"status_msg":  "查询成功",
+		"video_list":  videoListRes,
+	})
 }

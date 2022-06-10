@@ -19,6 +19,7 @@ func (v Video) TableName() string {
 	return "video"
 }
 
-func PublishVideo() {
-
+func GetVideoList(userId uint) (err error, videoList []Video) {
+	err = Db.Model(&Video{}).Preload("Author").Where("user_id = ?", userId).Find(&videoList).Error
+	return
 }

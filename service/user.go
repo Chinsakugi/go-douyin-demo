@@ -159,7 +159,7 @@ func UserInfo(c *gin.Context) {
 		})
 		return
 	}
-	if userClaims.UserID != uint(id) {
+	if userClaims == nil {
 		c.JSON(http.StatusOK, UserInfoResponse{
 			Response: Response{StatusCode: -1, StatusMsg: "token error"},
 		})
