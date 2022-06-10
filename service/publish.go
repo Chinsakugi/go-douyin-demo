@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/gin-gonic/gin"
 	jwtHelper "go-douyin-demo/middleware/jwt"
+	"go-douyin-demo/middleware/util"
 	"go-douyin-demo/store"
 	"net/http"
 )
@@ -55,13 +56,17 @@ func Publish(c *gin.Context) {
 	}
 
 	//提取封面并保存
-	//todo
+	err, coverPath := util.GetSnapshot(filePath, "D:/go/go-douyin-demo/public/video_cover/", 5)
+	if err != nil {
+		c.JSON(http.StatusOK, Response{StatusCode: -1, StatusMsg: "get video cover error: " + err.Error()})
+		return
+	}
 
 	//保存视频信息
 	video := store.Video{
 		UserID:   userId,
 		PlayUrl:  filePath,
-		CoverUrl: "",
+		CoverUrl: coverPath,
 		Title:    title,
 	}
 	err = store.Db.Model(&store.Video{}).Create(&video).Error
