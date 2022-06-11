@@ -46,7 +46,7 @@ func DeleteFavoriteVideo(userId uint, videoId uint) error {
 }
 
 func GetFavoriteVideoList(userId uint) (videoList []Video) {
-	Db.Model(Video{}).Preload("Author").Where("id in ( select video_id from favorite_video where user_id = ? and deleted_at is null)", userId).
+	Db.Model(&Video{}).Preload("Author").Where("id in ( select video_id from favorite_video where user_id = ? and deleted_at is null)", userId).
 		Find(&videoList)
 	return
 }
