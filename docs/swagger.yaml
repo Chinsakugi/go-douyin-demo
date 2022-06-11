@@ -1,6 +1,53 @@
 info:
   contact: {}
 paths:
+  /douyin/favorite/action/:
+    post:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 视频id
+        in: query
+        name: video_id
+        required: true
+        type: integer
+      - description: 1-点赞，2-取消点赞
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 赞操作
+      tags:
+      - 扩展接口-1
+  /douyin/favorite/list/:
+    get:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 用户id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 点赞列表
+      tags:
+      - 扩展接口-1
   /douyin/feed:
     get:
       parameters:

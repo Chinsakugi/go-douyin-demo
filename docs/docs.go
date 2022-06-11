@@ -16,6 +16,77 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/douyin/favorite/action/": {
+            "post": {
+                "tags": [
+                    "扩展接口-1"
+                ],
+                "summary": "赞操作",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "视频id",
+                        "name": "video_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1-点赞，2-取消点赞",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/favorite/list/": {
+            "get": {
+                "tags": [
+                    "扩展接口-1"
+                ],
+                "summary": "点赞列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/douyin/feed": {
             "get": {
                 "tags": [

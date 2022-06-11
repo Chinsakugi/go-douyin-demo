@@ -71,3 +71,11 @@ func TestParseMytoken(t *testing.T) {
 	res := jwtHelper.ParseMyToken("czy_1654919179")
 	fmt.Println(res)
 }
+
+func TestGetFavoriteVideoList(t *testing.T) {
+	list := store.GetFavoriteVideoList(5)
+	res, _ := json.Marshal(list)
+	var out bytes.Buffer
+	json.Indent(&out, res, "", "\t")
+	fmt.Printf("%v", out.String())
+}

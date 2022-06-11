@@ -12,7 +12,7 @@ import (
 
 var Db = Init()
 
-//获取日志级别
+//GetLogLever 获取日志级别
 func GetLogLever(logLevel int) logger.LogLevel {
 	switch logLevel {
 	case 1:
@@ -59,4 +59,5 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Video{})
 	db.AutoMigrate(&Comment{})
+	db.AutoMigrate(&FavoriteVideo{})
 }
