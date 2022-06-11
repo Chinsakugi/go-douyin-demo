@@ -38,5 +38,5 @@ func GetSnapshot(videoPath, snapshotPath string, frameNum int) (error, string) {
 		return err, ""
 	}
 
-	return nil, coverPath
+	return nil, coverName + ".jpeg"
 }

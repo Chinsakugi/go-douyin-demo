@@ -50,6 +50,8 @@ func Register(c *gin.Context) {
 				StatusCode: -1,
 				StatusMsg:  "缺少username或password",
 			},
+			UserId: 0,
+			Token:  "",
 		})
 		return
 	}
@@ -58,6 +60,8 @@ func Register(c *gin.Context) {
 	if user.ID == 0 {
 		c.JSON(http.StatusOK, UserRegisterResponse{
 			Response: Response{StatusCode: -1, StatusMsg: "注册失败"},
+			UserId:   0,
+			Token:    "",
 		})
 		return
 	}
@@ -67,6 +71,8 @@ func Register(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, UserRegisterResponse{
 			Response: Response{StatusCode: -1, StatusMsg: "生成token错误：" + err.Error()},
+			UserId:   0,
+			Token:    "",
 		})
 		return
 	}
@@ -93,6 +99,8 @@ func Login(c *gin.Context) {
 				StatusCode: -1,
 				StatusMsg:  "缺少username或password",
 			},
+			UserId: 0,
+			Token:  "",
 		})
 		return
 	}
@@ -100,6 +108,8 @@ func Login(c *gin.Context) {
 	if loginUser.ID == 0 {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: -1, StatusMsg: "username 或 password 错误"},
+			UserId:   0,
+			Token:    "",
 		})
 		return
 	}
@@ -108,6 +118,8 @@ func Login(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, UserLoginResponse{
 			Response: Response{StatusCode: -1, StatusMsg: "生成token错误：" + err.Error()},
+			UserId:   0,
+			Token:    "",
 		})
 		return
 	}
@@ -166,7 +178,7 @@ func UserInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, UserInfoResponse{
-		Response: Response{StatusCode: 200, StatusMsg: "查询成功"},
+		Response: Response{StatusCode: 0, StatusMsg: "查询成功"},
 		User: UserResponse{
 			ID:            user.ID,
 			Name:          user.Username,

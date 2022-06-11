@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"github.com/golang-jwt/jwt/v4"
 	"go-douyin-demo/config"
+	"strconv"
+	"strings"
+	"time"
 )
 
 type UserClaims struct {
@@ -38,4 +41,27 @@ func ParseToken(tokenString string) (*UserClaims, error) {
 		return nil, fmt.Errorf("parse token error:%v", err)
 	}
 	return userClaim, nil
+}
+
+//GenMyToken 生成自定义token
+func GenMyToken(username string) string {
+	token := username + "_" + strconv.FormatInt(time.Now().Unix(), 10)
+	return token
+}
+
+// ParseMyToken 解析自定义token
+func ParseMyToken(token string) bool {
+	if token == "" {
+		return false
+	}
+	timeStr := strings.Split(token, "_")[1]
+	tokenTime, err := strconv.Atoi(timeStr)
+	if err != nil {
+		return false
+	}
+	//token过期
+	if time.Now().Unix()-int64(tokenTime) > 60*60*5 {
+		return false
+	}
+	return true
 }

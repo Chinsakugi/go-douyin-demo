@@ -1,6 +1,9 @@
 package store
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"time"
+)
 
 type Video struct {
 	gorm.Model
@@ -21,5 +24,12 @@ func (v Video) TableName() string {
 
 func GetVideoList(userId uint) (err error, videoList []Video) {
 	err = Db.Model(&Video{}).Preload("Author").Where("user_id = ?", userId).Find(&videoList).Error
+	return
+}
+
+func GetVideoFeed(latestTime int) (err error, videoList []Video) {
+	err = Db.Model(&Video{}).Preload("Author").
+		Where("created_at < ?", time.UnixMilli(int64(latestTime)).Format("2006-01-02 15:04:05")).
+		Order("created_at desc").Limit(30).Find(&videoList).Error
 	return
 }

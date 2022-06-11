@@ -35,3 +35,10 @@ func GetUser(userId uint) (user User, err error) {
 	err = Db.Model(&User{}).First(&user, userId).Error
 	return user, err
 }
+
+func GetUserIdByUserName(userName string) (userId uint, err error) {
+	var user User
+	err = Db.Model(&User{}).Where("username = ?", userName).First(&user).Error
+	userId = user.ID
+	return
+}
