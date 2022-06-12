@@ -25,8 +25,10 @@ func Feed(c *gin.Context) {
 	//latest_time := c.Query("latest_time")
 	token := c.Query("token")
 
+	var userId uint
 	if token != "" {
-		_, err := jwtHelper.ParseToken(token)
+		userClaims, err := jwtHelper.ParseToken(token)
+		userId = userClaims.UserID
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"status_code": -1,
@@ -74,7 +76,14 @@ func Feed(c *gin.Context) {
 		videoRes["cover_url"] = video.CoverUrl
 		videoRes["favorite_count"] = video.FavoriteCount
 		videoRes["comment_count"] = video.CommentCount
-		videoRes["is_favorite"] = video.IsFavorite
+
+		var count int64
+		store.Db.Model(&store.FavoriteVideo{}).Where("user_id = ? and video_id = ?", userId, video.ID).Count(&count)
+		if count > 0 {
+			videoRes["is_favorite"] = true
+		} else {
+			videoRes["is_favorite"] = false
+		}
 		videoRes["title"] = video.Title
 
 		author := make(map[string]interface{})
@@ -83,7 +92,6 @@ func Feed(c *gin.Context) {
 		author["follow_count"] = video.Author.FollowCount
 		author["follower_count"] = video.Author.FollowerCount
 		author["is_follow"] = video.Author.IsFollow
-
 		videoRes["author"] = author
 		videoListRes = append(videoListRes, videoRes)
 	}

@@ -4,6 +4,89 @@
         "contact": {}
     },
     "paths": {
+        "/douyin/comment/action/": {
+            "post": {
+                "tags": [
+                    "扩展接口-1"
+                ],
+                "summary": "评论操作",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "视频id",
+                        "name": "video_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1-发布评论，2-删除评论",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户填写的评论内容，在action_type=1的时候使用",
+                        "name": "comment_text",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "要删除的评论id，在action_type=2的时候使用",
+                        "name": "comment_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/comment/list/": {
+            "get": {
+                "tags": [
+                    "扩展接口-1"
+                ],
+                "summary": "评论列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "视频id",
+                        "name": "video_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/douyin/favorite/action/": {
             "post": {
                 "tags": [

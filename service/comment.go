@@ -163,8 +163,8 @@ func CommentList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status_code": 0,
-		"status_msg":  "查询成功",
-		"video_list":  commentListRes,
+		"status_code":  0,
+		"status_msg":   "查询成功",
+		"comment_list": commentListRes,
 	})
 }

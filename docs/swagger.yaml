@@ -1,6 +1,61 @@
 info:
   contact: {}
 paths:
+  /douyin/comment/action/:
+    post:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 视频id
+        in: query
+        name: video_id
+        required: true
+        type: integer
+      - description: 1-发布评论，2-删除评论
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      - description: 用户填写的评论内容，在action_type=1的时候使用
+        in: query
+        name: comment_text
+        type: string
+      - description: 要删除的评论id，在action_type=2的时候使用
+        in: query
+        name: comment_id
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 评论操作
+      tags:
+      - 扩展接口-1
+  /douyin/comment/list/:
+    get:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 视频id
+        in: query
+        name: video_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 评论列表
+      tags:
+      - 扩展接口-1
   /douyin/favorite/action/:
     post:
       parameters:

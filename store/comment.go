@@ -16,7 +16,7 @@ func (c Comment) TableName() string {
 	return "comment"
 }
 
-func AddComment(videoId, userId uint, commentText string) (Comment, error) {
+func AddComment(userId, videoId uint, commentText string) (Comment, error) {
 	data := Comment{
 		UserID:  userId,
 		VideoID: videoId,
