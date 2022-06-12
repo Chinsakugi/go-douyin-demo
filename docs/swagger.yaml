@@ -169,6 +169,74 @@ paths:
       summary: 发布列表
       tags:
       - 基础接口
+  /douyin/relation/action/:
+    post:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 对方用户id
+        in: query
+        name: to_user_id
+        required: true
+        type: integer
+      - description: 1-关注，2-取消关注
+        in: query
+        name: action_type
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 关注操作
+      tags:
+      - 扩展接口-2
+  /douyin/relation/follow/list/:
+    get:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 用户id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 关注列表
+      tags:
+      - 扩展接口-2
+  /douyin/relation/follower/list/:
+    get:
+      parameters:
+      - description: 用户鉴权token
+        in: query
+        name: token
+        required: true
+        type: string
+      - description: 用户id
+        in: query
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{"status_code":"200","status_msg":""}'
+          schema:
+            type: string
+      summary: 粉丝列表
+      tags:
+      - 扩展接口-2
   /douyin/user/:
     get:
       parameters:

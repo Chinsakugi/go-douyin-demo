@@ -91,7 +91,14 @@ func Feed(c *gin.Context) {
 		author["name"] = video.Author.Username
 		author["follow_count"] = video.Author.FollowCount
 		author["follower_count"] = video.Author.FollowerCount
-		author["is_follow"] = video.Author.IsFollow
+		var isFollow int64
+		store.Db.Model(&store.UserRelation{}).Where("user_id = ? and to_user_id = ?", userId, video.Author.ID).Count(&isFollow)
+		if isFollow > 0 {
+			author["is_follow"] = true
+		} else {
+			author["is_follow"] = false
+		}
+
 		videoRes["author"] = author
 		videoListRes = append(videoListRes, videoRes)
 	}

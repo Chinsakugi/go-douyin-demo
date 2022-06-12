@@ -271,6 +271,109 @@ const docTemplate = `{
                 }
             }
         },
+        "/douyin/relation/action/": {
+            "post": {
+                "tags": [
+                    "扩展接口-2"
+                ],
+                "summary": "关注操作",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "对方用户id",
+                        "name": "to_user_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1-关注，2-取消关注",
+                        "name": "action_type",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/relation/follow/list/": {
+            "get": {
+                "tags": [
+                    "扩展接口-2"
+                ],
+                "summary": "关注列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/douyin/relation/follower/list/": {
+            "get": {
+                "tags": [
+                    "扩展接口-2"
+                ],
+                "summary": "粉丝列表",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户鉴权token",
+                        "name": "token",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户id",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"status_code\":\"200\",\"status_msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/douyin/user/": {
             "get": {
                 "tags": [

@@ -141,7 +141,13 @@ func PublishList(c *gin.Context) {
 		videoRes["cover_url"] = video.CoverUrl
 		videoRes["favorite_count"] = video.FavoriteCount
 		videoRes["comment_count"] = video.CommentCount
-		videoRes["is_favorite"] = video.IsFavorite
+		var count int64
+		store.Db.Model(&store.FavoriteVideo{}).Where("user_id = ? and video_id = ?", userClaims.UserID, video.ID).Count(&count)
+		if count > 0 {
+			videoRes["is_favorite"] = true
+		} else {
+			videoRes["is_favorite"] = false
+		}
 		videoRes["title"] = video.Title
 
 		author := make(map[string]interface{})
@@ -149,8 +155,13 @@ func PublishList(c *gin.Context) {
 		author["name"] = video.Author.Username
 		author["follow_count"] = video.Author.FollowCount
 		author["follower_count"] = video.Author.FollowerCount
-		author["is_follow"] = video.Author.IsFollow
-
+		var isFollow int64
+		store.Db.Model(&store.UserRelation{}).Where("user_id = ? and to_user_id = ?", userClaims.UserID, video.Author.ID).Count(&isFollow)
+		if isFollow > 0 {
+			author["is_follow"] = true
+		} else {
+			author["is_follow"] = false
+		}
 		videoRes["author"] = author
 		videoListRes = append(videoListRes, videoRes)
 	}

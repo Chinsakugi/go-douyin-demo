@@ -60,4 +60,5 @@ func Migrate(db *gorm.DB) {
 	db.AutoMigrate(&Video{})
 	db.AutoMigrate(&Comment{})
 	db.AutoMigrate(&FavoriteVideo{})
+	db.AutoMigrate(&UserRelation{})
 }

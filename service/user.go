@@ -177,6 +177,14 @@ func UserInfo(c *gin.Context) {
 		})
 		return
 	}
+	var isFollow int64
+	store.Db.Model(&store.UserRelation{}).Where("user_id = ? and to_user_id = ?", userClaims.UserID, userId).Count(&isFollow)
+	var followFlag bool
+	if isFollow > 0 {
+		followFlag = true
+	} else {
+		followFlag = false
+	}
 	c.JSON(http.StatusOK, UserInfoResponse{
 		Response: Response{StatusCode: 0, StatusMsg: "查询成功"},
 		User: UserResponse{
@@ -184,7 +192,7 @@ func UserInfo(c *gin.Context) {
 			Name:          user.Username,
 			FollowCount:   user.FollowCount,
 			FollowerCount: user.FollowerCount,
-			IsFollow:      user.IsFollow,
+			IsFollow:      followFlag,
 		},
 	})
 }
